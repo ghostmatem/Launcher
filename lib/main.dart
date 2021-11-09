@@ -7,6 +7,8 @@ import 'package:flutter/painting.dart';
 import 'app_list.dart';
 import 'widget_screen.dart';
 
+
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -51,7 +53,6 @@ class MyApp extends StatelessWidget {
             Image.network(imageUri,
             height: 400,
             width: 400,),
-            Text(text)],
-        ),
-      );
-  
+            Text(text)]));
+
+
