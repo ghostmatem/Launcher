@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:launch/widget_screen/calculator_widget.dart';
 import 'package:launch/widget_screen/clock_widget.dart';
-import 'package:launch/widget_screen/weather/bloc/weather_bloc.dart';
 import 'package:launch/widget_screen/weather/data/weather_repository.dart';
 import 'package:launch/widget_screen/weather/user%20interface/weather_wigdet.dart';
 

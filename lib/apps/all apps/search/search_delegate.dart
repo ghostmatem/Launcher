@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:launch/apps/all%20apps/data/app_repository.dart';
 import 'package:launch/apps/all%20apps/search/search_algorytms.dart' as alg;
-import 'package:launch/apps/favorite%20apps/user%20interface/favorite_screen.dart';
 
 class MySearchDelegate extends SearchDelegate {
   static const double _bottonSize = 32;

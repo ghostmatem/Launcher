@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:launch/widget_screen/weather/bloc/weather_bloc.dart';
 import 'package:launch/widget_screen/weather/data/weather_repository.dart';
 import 'package:launch/widget_screen/widget_screen.dart';
 import 'apps/all apps/user interface/app_screen.dart';
@@ -25,16 +24,4 @@ class AppBody extends StatelessWidget {
     );
   }
 }
-
-// Вряд ли виджет будет адаптироваться под экран, 
-// так что можно юзать хотя бы то, что по посл ссылке открыто
-// Все ещё не работает на релизе)))
-// Сделать если данные в репозитории есть и апи закрыто, стадия не обновляется на загруженную, ввести стадию
-// Данные уже имеются
-
-// Вместо скафолда сунуть часы в фэворит
-// Сделать управление более человеческим
-
-// Добавить строку поиска приложений
-// Привести все к одному дизайну
 

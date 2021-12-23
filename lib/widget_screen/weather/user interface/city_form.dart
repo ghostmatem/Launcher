@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:launch/widget_screen/weather/bloc/weather_bloc.dart';
 import 'package:launch/widget_screen/weather/bloc/weather_events.dart' as ev;
-import 'package:provider/src/provider.dart';
+
 
 class CityForm extends StatelessWidget {
   CityForm({

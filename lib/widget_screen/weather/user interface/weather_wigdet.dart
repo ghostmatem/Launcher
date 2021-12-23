@@ -8,6 +8,7 @@ import 'package:launch/widget_screen/weather/bloc/weather_events.dart' as ev;
 import 'package:launch/widget_screen/weather/bloc/weather_states.dart' as s;
 import 'package:launch/widget_screen/weather/data/weather_repository.dart';
 import 'package:launch/widget_screen/weather/user%20interface/city_form.dart';
+import 'package:launch/widget_screen/weather/user%20interface/error_widget.dart';
 import 'package:launch/widget_screen/weather/user%20interface/weather_widget_title.dart';
 
 
@@ -70,14 +71,14 @@ class WeatherWidget extends StatelessWidget {
                   bloc.add(ev.WeatherRequestToAPISafety());
                 }
             }); 
-            return ErrorWidget(
+            return MyErrorWidget(
             text: 'Ошибка сервера. \nВозможно прогноз погоды уехал в дальние страны',
             onPressed: () {
               bloc.add(ev.WeatherRequestToAPISafety());
             },);  
             }
             if (state is s.WeatherFromCityLoadingFailed) {
-              return ErrorWidget(text: 'К сожалению, по запрошенному городу нет данных\n' +
+              return MyErrorWidget(text: 'К сожалению, по запрошенному городу нет данных\n' +
               'Попробуйте снова', onPressed: (){
                 bloc.add(ev.WeatherChoiseCity());
               });
@@ -101,32 +102,6 @@ class WeatherWidget extends StatelessWidget {
   }
 }
 
-class ErrorWidget extends StatelessWidget {
-  const ErrorWidget({
-    Key? key,
-    required this.text, required this.onPressed,
-  }) : super(key: key);
 
-  final Function() onPressed;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-       alignment: Alignment.center,
-       child: Column(
-         mainAxisAlignment: MainAxisAlignment.center,
-         crossAxisAlignment: CrossAxisAlignment.center,
-         children: [
-            Text(text,
-            textAlign: TextAlign.center, 
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
-            IconButton(icon: const Icon(Icons.replay_outlined, 
-            size: 50, color: Color.fromRGBO(48, 48, 48, 1)),
-            onPressed: onPressed),
-         ],
-       ));
-  }
-}
 
 

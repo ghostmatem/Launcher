@@ -21,7 +21,7 @@ class WeatherAPIProvider {
   static int _requestApiLimit = 1;
   
   DateTime? _timeLastRequest;
-  late final _apiDelay;
+  late final int _apiDelay;
 
   Future<Weather> getWeatherInfoOnDay({String cityName = 'Yaroslavl'}) async {
     await checkClosedAPI(closedForOneDayRequest);
