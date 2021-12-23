@@ -1,58 +1,40 @@
-import 'dart:async';
-import 'dart:collection';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'app_list.dart';
-import 'widget_screen.dart';
+import 'package:launch/widget_screen/weather/bloc/weather_bloc.dart';
+import 'package:launch/widget_screen/weather/data/weather_repository.dart';
+import 'package:launch/widget_screen/widget_screen.dart';
+import 'apps/all apps/user interface/app_screen.dart';
+import 'apps/favorite apps/user interface/favorite_screen.dart';
 
-
-
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => 
-    MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-              title: _getMainTitle(),
-              centerTitle: true,
-              leading: _widgetButton(context)), 
-          body: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) =>
-                  AppList(appTitle: "Приложение $index"))));
-
-
-
-  Widget _getMainTitle() => 
-  const Text('A\$ap Launch Zone',
-      style: TextStyle(
-          fontSize: 30,
-          fontWeight: FontWeight.bold,
-          fontStyle: FontStyle.italic,
-          color: Colors.yellow,
-          fontFamily: 'Comic Sans MS'));
-
-  Widget _widgetButton(context) => 
-    Builder(
-      builder: (context) => IconButton(
-        icon: const Icon(Icons.widgets_rounded, size: 35),
-        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const WidgetScreen()))));
+void main() { 
+  runApp(const AppBody());
 }
 
-  Widget getTmpBody(imageUri, text) =>
-       Center(
-        child: Column(
-          children: [
-            Image.network(imageUri,
-            height: 400,
-            width: 400,),
-            Text(text)]));
+final WeatherRepository weatherRepository = WeatherRepository('e8cd0bf39a1153ba88c82c822f4466a6');
 
+
+class AppBody extends StatelessWidget {
+  const AppBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: PageView(children: 
+        [ WidgetScreen(repository: weatherRepository), const AppScreen(), FavoriteAppsScreen()],
+        )
+        
+    );
+  }
+}
+
+// Вряд ли виджет будет адаптироваться под экран, 
+// так что можно юзать хотя бы то, что по посл ссылке открыто
+// Все ещё не работает на релизе)))
+// Сделать если данные в репозитории есть и апи закрыто, стадия не обновляется на загруженную, ввести стадию
+// Данные уже имеются
+
+// Вместо скафолда сунуть часы в фэворит
+// Сделать управление более человеческим
+
+// Добавить строку поиска приложений
+// Привести все к одному дизайну
 
