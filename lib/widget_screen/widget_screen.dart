@@ -6,9 +6,9 @@ import 'package:launch/widget_screen/weather/user%20interface/weather_wigdet.dar
 
 class WidgetScreen extends StatelessWidget {
 const WidgetScreen
-({ Key? key, required this.repository}) : super(key: key);
+({ Key? key}) : super(key: key);
 
-  final WeatherRepository repository;
+
   
 
   @override
@@ -16,11 +16,11 @@ const WidgetScreen
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Column(
-        children: [
-          const SizedBox(height: 80),
-          const MyClock(),        
-          WeatherWidget(repository: repository),        
-          const CalculatorWidget()]));                             
+        children: const [
+          SizedBox(height: 80),
+          MyClock(),        
+          WeatherWidget(),        
+          CalculatorWidget()]));                             
       }
              
 }

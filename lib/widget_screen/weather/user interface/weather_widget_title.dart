@@ -17,7 +17,6 @@ final double standartWidth = 100;
 
   @override
   Widget build(BuildContext context) {
-    var bloc = context.watch<WeatherBloc>();
     return Container(
       margin: const EdgeInsets.all(2),
       child: Column(
@@ -31,14 +30,14 @@ final double standartWidth = 100;
                 children: [
                   const SizedBox(width: 35),
                   TextButton(onPressed: (){
-                    bloc.add(ev.WeatherChoiseCity());
+                    context.watch<WeatherBloc>().add(ev.WeatherChoiseCity());
                   }, 
                   child: const SizedBox(height: 40, width: 200,)
                   ),
                   const SizedBox(width: 30),
                   IconButton(icon: const Icon(Icons.refresh_outlined, size: 30),
                   onPressed: (){
-                    bloc.add(ev.WeatherTryRequest());
+                    context.watch<WeatherBloc>().add(ev.WeatherTryRequest());
                   })
                 ],
               ),               

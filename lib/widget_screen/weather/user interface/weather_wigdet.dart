@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:launch/widget_screen/weather/bloc/weather_bloc.dart';
 import 'package:launch/widget_screen/weather/bloc/weather_events.dart' as ev;
 import 'package:launch/widget_screen/weather/bloc/weather_states.dart' as s;
+import 'package:launch/widget_screen/weather/data/weather_item.dart';
 import 'package:launch/widget_screen/weather/data/weather_repository.dart';
 import 'package:launch/widget_screen/weather/user%20interface/city_form.dart';
 import 'package:launch/widget_screen/weather/user%20interface/error_widget.dart';
@@ -15,10 +16,8 @@ import 'package:launch/widget_screen/weather/user%20interface/weather_widget_tit
 class WeatherWidget extends StatelessWidget {
   const WeatherWidget({
     Key? key,
-    required this.repository,
   }) : super(key: key);
 
-  final WeatherRepository repository;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +25,7 @@ class WeatherWidget extends StatelessWidget {
       margin: const EdgeInsets.all(18),
       color: Colors.blue[100],
       shape:  RoundedRectangleBorder( borderRadius: BorderRadius.circular(20)),
-      child:  BlocProvider<WeatherBloc>(
-        create: (context) => WeatherBloc(repository),
-        child: const WeatherBodyWidget()));
+      child:  const WeatherBodyWidget());
   }
 }
 
@@ -92,10 +89,11 @@ class WeatherWidget extends StatelessWidget {
   ListView _buildWidget(s.WeatherLoadingSuccess state) {
     var weatherForDays = state.data;
     List<Widget> data = [];
-    weatherForDays.forEach((element) {
-      data.add(WeatherWidgetTitle(data: element));
+     for (var d in weatherForDays)  { 
+      data.add(WeatherWidgetTitle(data: d));
       data.add(const SizedBox(width: 10));
-    });       
+    };
+
     return ListView(scrollDirection: Axis.horizontal,
         children: data);
     
