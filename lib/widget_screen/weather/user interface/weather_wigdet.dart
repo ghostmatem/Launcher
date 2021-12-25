@@ -93,12 +93,14 @@ class WeatherWidget extends StatelessWidget {
       data.add(WeatherWidgetTitle(data: d));
       data.add(const SizedBox(width: 10));
     };
-
     return ListView(scrollDirection: Axis.horizontal,
         children: data);
     
   }
+
+  
 }
+
 
 
 

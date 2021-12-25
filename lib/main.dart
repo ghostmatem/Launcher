@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:launch/widget_screen/weather/bloc/weather_bloc.dart';
@@ -29,7 +27,7 @@ class AppBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: PageView(children: 
-        [ WidgetScreen(), const AppScreen(), FavoriteAppsScreen()],
+        [ const WidgetScreen(), const AppScreen(), FavoriteAppsScreen()],
         )
         
     );
