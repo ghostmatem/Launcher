@@ -30,14 +30,14 @@ final double standartWidth = 100;
                 children: [
                   const SizedBox(width: 35),
                   TextButton(onPressed: (){
-                    context.watch<WeatherBloc>().add(ev.WeatherChoiseCity());
+                    context.read<WeatherBloc>().add(ev.WeatherChoiseCity());
                   }, 
                   child: const SizedBox(height: 40, width: 200,)
                   ),
                   const SizedBox(width: 30),
                   IconButton(icon: const Icon(Icons.refresh_outlined, size: 30),
                   onPressed: (){
-                    context.watch<WeatherBloc>().add(ev.WeatherTryRequest());
+                    context.read<WeatherBloc>().add(ev.WeatherTryRequest());
                   })
                 ],
               ),               

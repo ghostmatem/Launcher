@@ -15,12 +15,13 @@ class WeatherLoadingFailed extends WeatherState { }
 class WeatherChoisingCity extends WeatherState { }
 class WeatherFromCityLoadingFailed extends WeatherState { }
 class WeatherLoadingSuccess extends WeatherState { 
-  const WeatherLoadingSuccess(this.data);
+  const WeatherLoadingSuccess(this.data, this.isUpdate);
 
   final List<WeatherItem> data;
+  final bool isUpdate;
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [data, isUpdate];
 }
   
 

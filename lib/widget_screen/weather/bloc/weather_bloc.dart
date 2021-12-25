@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:launch/widget_screen/weather/bloc/weather_states.dart' as s;
 import 'package:launch/widget_screen/weather/data/weather_repository.dart';
@@ -19,7 +17,7 @@ class WeatherBloc extends Bloc<ev.WeatherEvent, s.WeatherState> {
       try {
         await repository.tryInitCity();
         if (repository.WeatherExist && repository.apiClosed) {
-            emit(s.WeatherLoadingSuccess(repository.Weathers));
+            emit(s.WeatherLoadingSuccess(repository.Weathers, false));
             return;
         } else {
           add(ev.WeatherRequestToAPISafety());
@@ -64,13 +62,13 @@ class WeatherBloc extends Bloc<ev.WeatherEvent, s.WeatherState> {
   Future<void> _requestToMemory(Emitter<s.WeatherState> emit) async {
     emit(s.WeatherDataIsLoaded());
     var weatherList = await repository.getWeatherFromMemory();
-    emit(s.WeatherLoadingSuccess(weatherList));
+    emit(s.WeatherLoadingSuccess(weatherList, true));
   }
 
   Future<void> _requestToApi(Emitter<s.WeatherState> emit, String city) async {
     emit(s.WeatherDataIsLoaded());
     await repository.tryInitTimeLastRequest();  
     var weatherList = await repository.getWeatherFromAPI(city);
-    emit(s.WeatherLoadingSuccess(weatherList));
+    emit(s.WeatherLoadingSuccess(weatherList, true));
   }
 }

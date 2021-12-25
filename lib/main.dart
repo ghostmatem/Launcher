@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:launch/apps/all%20apps/bloc/app_bloc.dart';
 import 'package:launch/widget_screen/weather/bloc/weather_bloc.dart';
 import 'package:launch/widget_screen/weather/data/weather_repository.dart';
-import 'package:launch/widget_screen/weather/user%20interface/weather_wigdet.dart';
 import 'package:launch/widget_screen/widget_screen.dart';
 import 'apps/all apps/user interface/app_screen.dart';
 import 'apps/favorite apps/user interface/favorite_screen.dart';
@@ -13,6 +13,8 @@ void main() {
       BlocProvider<WeatherBloc>(
         create: (context) => WeatherBloc(weatherRepository),
       ),
+      BlocProvider<AppBloc>
+      (create: (context) => AppBloc())
     ],
     child: const AppBody()));
 }

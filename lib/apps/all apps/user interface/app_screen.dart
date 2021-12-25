@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:launch/apps/all%20apps/bloc/app_bloc.dart';
+import 'package:launch/apps/all%20apps/bloc/app_event.dart' as e;
+import 'package:launch/apps/all%20apps/bloc/app_states.dart' as s;
 import 'package:launch/apps/all%20apps/search/search_delegate.dart';
-import 'package:launch/apps/favorite%20apps/data/favorite_d_provider.dart';
-import 'package:launch/apps/favorite%20apps/data/favorite_repository.dart';
 import 'package:launch/apps/favorite%20apps/user%20interface/favorite_screen.dart';
-import '../data/app_repository.dart';
+import 'package:launch/widget_screen/weather/user%20interface/error_widget.dart';
 import 'app_item_list.dart';
 
 
@@ -31,43 +31,35 @@ class AppScreen extends StatelessWidget {
 }
 
 
-class AppWidget extends StatefulWidget {
+class AppWidget extends StatelessWidget {
 const AppWidget({Key? key}) : super(key: key);
-
-  @override
-  _AppWidgetState createState() => _AppWidgetState();
-}
-
-class _AppWidgetState extends State<AppWidget> {
-  @override
-  void initState() {
-      if (AppsRepository.apps.isEmpty) {
-      _whenOpenAppUpdate();    
-    }
-    super.initState();
-  }
-
-  void _whenOpenAppUpdate() {
-    AppsRepository.getInstalledApps().then((data) {
-      AppsRepository.updateData(data);
-      FavoriteDataProvider.getAllData().then((names) {
-        FavoriteAppsRepository.updateFavoriteList(names);
-        setState(() {});
-      });
-    });   
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (AppsRepository.apps.isNotEmpty) {
-      return ListView.builder(
-          itemCount: AppsRepository.apps.length,
-          itemBuilder: (context, index) {
-            return AppListItem(app: AppsRepository.apps[index], needStar: true);
-          });
-    } else {
-      return const Center(child: CircularProgressIndicator());
-    }
+      return BlocBuilder<AppBloc, s.AppState>(
+        builder: (context, state) {
+          if (state is s.DontHasDataOfApps) {
+            context.read<AppBloc>().add(e.StartLoadingApps());
+          }
+          if (state is s.FavoriteAppFormating) {
+            return const Center(child: CircularProgressIndicator(color: Colors.red));
+          }
+          else if (state is s.AppsOperationIsSuccess) {
+            var data = state.data;
+            return ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return AppListItem(app: data[index], needStar: true);
+            });
+            }     
+          else if (state is s.AppsOperationFailled) {
+           return MyErrorWidget(text: 'Не удалось загрузить список приложений',
+            onPressed: () => context.read<AppBloc>().
+            add(e.StartLoadingApps()));
+          }   
+            return const Center(child: CircularProgressIndicator());                    
+        });
+         
+    
   }
 
 }
