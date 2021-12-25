@@ -1,39 +1,40 @@
 // ignore_for_file: file_names
 
+import 'package:launch/widget_screen/weather/data/weather_request.dart';
+import 'package:launch/widget_screen/weather/data/weather_item.dart';
 import 'package:launch/widget_screen/weather/data/weather_memory_provider.dart';
-import 'package:weather/weather.dart';
 import 'dart:async';
 
 class WeatherAPIProvider {
   WeatherAPIProvider(String apiKey, int apiDelayOnMinutes, 
   WeatherMemoryProvider weatherMemoryProvider) {
-    _weatherAPI = WeatherFactory(apiKey, language: Language.RUSSIAN);
+    _weatherAPI = WeatherRequest(apiKey);
     _memoryProvider = weatherMemoryProvider;
     _apiDelay = apiDelayOnMinutes;
   }
-
-  late WeatherFactory _weatherAPI;
+  
+  late WeatherRequest _weatherAPI;
   late final WeatherMemoryProvider _memoryProvider;
 
   static int _counterRequestApiOneDay = 0;
   static int _counterRequestApiThreeDay = 0;
 
-  static int _requestApiLimit = 1;
+  static const int _requestApiLimit = 1;
   
   DateTime? _timeLastRequest;
   late final int _apiDelay;
 
-  Future<Weather> getWeatherInfoOnDay({String cityName = 'Yaroslavl'}) async {
+  Future<WeatherItem> getWeatherInfoOnDay({String cityName = 'Yaroslavl'}) async {
     await checkClosedAPI(closedForOneDayRequest);
-    var weatherInfo = await _weatherAPI.currentWeatherByCityName(cityName);
+    var weatherInfo = await _weatherAPI.getCurrentWeather(cityName);
     _counterRequestApiOneDay++;
     postCheckClosedAPI();
     return weatherInfo;
   }
 
-  Future<List<Weather>> getWeatherInfoOnThreeDay({String cityName = 'Yaroslavl'}) async {
+  Future<List<WeatherItem>> getWeatherInfoOnThreeDay({String cityName = 'Yaroslavl'}) async {
     await checkClosedAPI(closedForThreeDayRequest);
-    var weatherInfo = await _weatherAPI.fiveDayForecastByCityName(cityName);
+    var weatherInfo = await _weatherAPI.getForecastWeather(cityName);
     _counterRequestApiThreeDay++;
     postCheckClosedAPI();
     return weatherInfo;

@@ -8,15 +8,7 @@ import 'apps/all apps/user interface/app_screen.dart';
 import 'apps/favorite apps/user interface/favorite_screen.dart';
 
 void main() { 
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider<WeatherBloc>(
-        create: (context) => WeatherBloc(weatherRepository),
-      ),
-      BlocProvider<AppBloc>
-      (create: (context) => AppBloc())
-    ],
-    child: const AppBody()));
+  runApp(const AppBody());
 }
 
 final WeatherRepository weatherRepository = WeatherRepository('e8cd0bf39a1153ba88c82c822f4466a6');
@@ -28,11 +20,18 @@ class AppBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: PageView(children: 
+        home: MultiBlocProvider(
+    providers: [
+      BlocProvider<WeatherBloc>(
+        create: (context) => WeatherBloc(weatherRepository),
+      ),
+      BlocProvider<AppBloc>
+      (create: (context) => AppBloc())
+    ],
+    child: PageView(children: 
         [ const WidgetScreen(), const AppScreen(), FavoriteAppsScreen()],
         )
-        
-    );
+    ));
   }
 }
 

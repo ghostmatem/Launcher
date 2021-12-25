@@ -5,8 +5,6 @@ import 'dart:async';
 
 import 'package:launch/widget_screen/weather/data/weather_api_provider.dart';
 import 'package:launch/widget_screen/weather/data/weather_memory_provider.dart';
-
-import 'package:weather/weather.dart';
 import 'weather_item.dart';
 
 class WeatherRepository {
@@ -85,7 +83,7 @@ class WeatherRepository {
   Future<WeatherItem?> _getWeatherOnDayFromAPI({String cityName = 'Yaroslavl'}) async {
     var snapshot = await _apiProvider.getWeatherInfoOnDay(cityName: cityName);
     print('API1');
-    return WeatherItem(snapshot, isMain: true);
+    return snapshot;
   }
 
    Future<List<WeatherItem>> _getWeatherOnThreeDaysFromAPI({String cityName = 'Yaroslavl'}) async {
@@ -105,14 +103,14 @@ class WeatherRepository {
     return _weathers;
   }
 
-  Stream<WeatherItem> _getStreamWeatherItems(List<Weather> snapshot) async* {
+  Stream<WeatherItem> _getStreamWeatherItems(List<WeatherItem> snapshot) async* {
     var valueToSkip = DateTime.now().weekday + 1;
-    List<Weather> buffer = [];
+    List<WeatherItem> buffer = [];
     int lenght = snapshot.length;
     for (int i = 0; i < lenght; i++) {
-      int dayOfWeek = snapshot[i].date!.weekday;
+      int dayOfWeek = snapshot[i].date.weekday;
       int dayOfWeekNext = i < lenght - 1 ? 
-      snapshot[i + 1].date!.weekday : valueToSkip + 1;
+      snapshot[i + 1].date.weekday : valueToSkip + 1;
     
       if (dayOfWeek == valueToSkip) {
         buffer.add(snapshot[i]);
@@ -126,38 +124,38 @@ class WeatherRepository {
     }
   }
 
-  WeatherItem _getAverangeWeather(List<Weather> data) {
+  WeatherItem _getAverangeWeather(List<WeatherItem> data) {
     int length = data.length;
     int mIndex = _getModeWeatherIndex(data);
 
-    double wideSpeedSum = 0;
-    double tempSum = 0;
-    double tempMin = 200;
-    double tempMax = -200;
+    int wideSpeedSum = 0;
+    int tempSum = 0;
+    int tempMin = 200;
+    int tempMax = -200;
     for (var item in data) {
-      var temp = item.temperature!.celsius!;
+      var temp = item.temperature;
       tempSum += temp;
-      wideSpeedSum += item.windSpeed ?? 0;
+      wideSpeedSum += item.wideSpeed;
       tempMin = temp < tempMin ? temp : tempMin;
       tempMax = temp > tempMax ? temp :  tempMax;
     }
-    return WeatherItem.build
-    (date: data[length~/2].date!, 
-    city: customDayOfWeek[data[0].date!.weekday - 1], 
-    decription: data[mIndex].weatherDescription!, 
+    return WeatherItem
+    (date: data[length~/2].date, 
+    city: customDayOfWeek[data[0].date.weekday - 1], 
+    decription: data[mIndex].decription, 
     temperature: (tempSum/length).round(), 
-    minTemp: tempMin.round(), 
-    maxTemp: tempMax.round(), 
-    humidity: data[0].humidity!.round(), 
+    minTemp: tempMin, 
+    maxTemp: tempMax, 
+    humidity: data[0].humidity, 
     wideSpeed: (wideSpeedSum/length).round(), 
-    iconCode: data[mIndex].weatherIcon!);
+    iconCode: data[mIndex].iconCode);
   }
 
-  int _getModeWeatherIndex(List<Weather> data) {
+  int _getModeWeatherIndex(List<WeatherItem> data) {
     int index = 0;
     Map<String, int> map = <String, int>{};
     for (var d in data) {
-      var key = d.weatherDescription ?? 'd';
+      var key = d.decription;
       if (!map.containsKey(key)) {
         map[key] = 0;
       }
