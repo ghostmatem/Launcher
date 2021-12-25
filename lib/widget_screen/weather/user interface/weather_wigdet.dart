@@ -1,11 +1,8 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:launch/widget_screen/weather/bloc/weather_bloc.dart';
 import 'package:launch/widget_screen/weather/bloc/weather_events.dart' as ev;
 import 'package:launch/widget_screen/weather/bloc/weather_states.dart' as s;
-import 'package:launch/widget_screen/weather/data/weather_item.dart';
 import 'package:launch/widget_screen/weather/user%20interface/city_form.dart';
 import 'package:launch/widget_screen/weather/user%20interface/error_widget.dart';
 import 'package:launch/widget_screen/weather/user%20interface/weather_widget_title.dart';
@@ -23,7 +20,7 @@ class WeatherWidget extends StatelessWidget {
       margin: const EdgeInsets.all(18),
       color: Colors.blue[100],
       shape:  RoundedRectangleBorder( borderRadius: BorderRadius.circular(20)),
-      child:  WeatherBodyWidget());
+      child:  const WeatherBodyWidget());
   }
 }
 
@@ -51,7 +48,11 @@ late ListView listView;
                 scrollDirection: Axis.horizontal,
                 itemCount: weatherForDays.length,
                 itemBuilder: (context, i) {
-                  return WeatherWidgetTitle(data: weatherForDays[i]);});   
+                  var item = weatherForDays[i];
+                  return item.isMain ? 
+                  WeatherWidgetMainTitle(data: item)
+                  : 
+                  WeatherWidgetSubTitle(data: item);});   
               }
               return listView;                            
               }

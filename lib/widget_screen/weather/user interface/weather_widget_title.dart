@@ -7,8 +7,8 @@ import 'package:launch/widget_screen/weather/user%20interface/weather_widget_ite
 import 'package:launch/widget_screen/weather/user%20interface/weather_widget_items/fast_weather_info_widgets.dart';
 import 'package:launch/widget_screen/weather/user%20interface/weather_widget_items/weather_body_widgets.dart';
 
-class WeatherWidgetTitle extends StatelessWidget {
-  const WeatherWidgetTitle
+class WeatherWidgetMainTitle extends StatelessWidget {
+  const WeatherWidgetMainTitle
 ({ Key? key, required this.data }) : super(key: key);
 
 final WeatherItem data;
@@ -44,6 +44,37 @@ final double standartWidth = 100;
             ],
           )
           : CityField(sity: data.city) ,
+          Row(
+            children: [  
+              const SizedBox(width: 16),
+                MainTemperatureInfo(data: data),
+              const SizedBox(width: 6),
+                 IconWidget(iconCode: data.iconCode),      
+            ],
+          ),
+          FastInfoBar(data: data, standartWidth: standartWidth, standartFontSize: standartFontSize)
+        ],
+      ),
+    );
+  }
+}
+
+
+class WeatherWidgetSubTitle extends StatelessWidget {
+  const WeatherWidgetSubTitle
+({ Key? key, required this.data }) : super(key: key);
+
+final WeatherItem data;
+final double standartFontSize = 19;
+final double standartWidth = 100;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(2),
+      child: Column(
+        children: [              
+            CityField(sity: data.city) ,
           Row(
             children: [  
               const SizedBox(width: 16),

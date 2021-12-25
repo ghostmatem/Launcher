@@ -53,23 +53,26 @@ class WeatherRequest {
   static WeatherItem _parseJson(Map<String, dynamic> json, 
   String city, [bool isMain = false]) {
 
-    var valueWind = json['wind']['speed'];
-    var wind = valueWind is int ? valueWind : (valueWind as double).round();
     var weatherMap = (json['weather'] as List<dynamic>)[0] as  Map<String, dynamic>;
-    var mainMap = json['main']as Map<String, dynamic>;
+    var mainMap = json['main'] as Map<String, dynamic>;
 
     return WeatherItem(
       date:           DateTime.fromMillisecondsSinceEpoch((json["dt"] as int) * 1000),
       city:           city,
       decription:     weatherMap['description'] as String, 
       iconCode:       weatherMap['icon'] as String,       
-      temperature:   (mainMap['temp'] as double).round(),  
-      minTemp:       (mainMap['temp_min'] as double).round(),
-      maxTemp:       (mainMap['temp_max'] as double).round(),
-      feelTemp:      (mainMap['feels_like'] as double).round(),
-      humidity:       mainMap['humidity'] as int,
-      wideSpeed:      wind,
+      temperature:    _getRoundetInt(mainMap['temp']),
+      minTemp:        _getRoundetInt(mainMap['temp_min']),
+      maxTemp:        _getRoundetInt(mainMap['temp_max']),
+      feelTemp:       _getRoundetInt(mainMap['feels_like']),
+      humidity:       _getRoundetInt(mainMap['humidity']),
+      wideSpeed:      _getRoundetInt(json['wind']['speed']),
       isMain:         isMain,
        );
+  }
+
+  static int _getRoundetInt(dynamic num) {
+    return num is int ? num
+    : (num as double) ~/ 1;
   }
 }

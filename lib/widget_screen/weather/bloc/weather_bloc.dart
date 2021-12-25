@@ -45,7 +45,7 @@ class WeatherBloc extends Bloc<ev.WeatherEvent, s.WeatherState> {
           await repository.openApi();
           await _requestToApi(emit, value);
           repository.City = event.city;
-        } catch (_) {
+        } catch (_) {         
           emit(s.WeatherFromCityLoadingFailed());
         }
     });
