@@ -42,19 +42,15 @@ late ListView listView;
                context.read<WeatherBloc>().add(ev.WeatherTryRequest());
             }
             else if (state is s.WeatherLoadingSuccess) {  
-              var weatherForDays = state.data;
               if (state.isUpdate) {
                 listView = ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: weatherForDays.length,
+                itemCount: state.data.length,
                 itemBuilder: (context, i) {
-                  var item = weatherForDays[i];
-                  return item.isMain ? 
-                  WeatherWidgetMainTitle(data: item)
-                  : 
-                  WeatherWidgetSubTitle(data: item);});   
+                  return WeatherWidgetMainTitle(data: state.data[i]);
+                                    });  
               }
-              return listView;                            
+                  return listView;                                   
               }
             else if (state is s.WeatherDataIsLoaded) {
              return Container(

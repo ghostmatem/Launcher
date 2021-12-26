@@ -58,34 +58,3 @@ final double standartWidth = 100;
     );
   }
 }
-
-
-class WeatherWidgetSubTitle extends StatelessWidget {
-  const WeatherWidgetSubTitle
-({ Key? key, required this.data }) : super(key: key);
-
-final WeatherItem data;
-final double standartFontSize = 19;
-final double standartWidth = 100;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(2),
-      child: Column(
-        children: [              
-            CityField(sity: data.city) ,
-          Row(
-            children: [  
-              const SizedBox(width: 16),
-                MainTemperatureInfo(data: data),
-              const SizedBox(width: 6),
-                 IconWidget(iconCode: data.iconCode),      
-            ],
-          ),
-          FastInfoBar(data: data, standartWidth: standartWidth, standartFontSize: standartFontSize)
-        ],
-      ),
-    );
-  }
-}

@@ -104,7 +104,7 @@ class WeatherRepository {
   }
 
   Stream<WeatherItem> _getStreamWeatherItems(List<WeatherItem> snapshot) async* {
-    var valueToSkip = DateTime.now().weekday + 1;
+    var valueToSkip = (DateTime.now().weekday % 7) + 1;
     List<WeatherItem> buffer = [];
     int lenght = snapshot.length;
     for (int i = 0; i < lenght; i++) {
