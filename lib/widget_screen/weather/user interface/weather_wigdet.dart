@@ -42,15 +42,14 @@ late ListView listView;
                context.read<WeatherBloc>().add(ev.WeatherTryRequest());
             }
             else if (state is s.WeatherLoadingSuccess) {  
-              if (state.isUpdate) {
-                listView = ListView.builder(
+              
+                return ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: state.data.length,
                 itemBuilder: (context, i) {
                   return WeatherWidgetMainTitle(data: state.data[i]);
                                     });  
-              }
-                  return listView;                                   
+                                               
               }
             else if (state is s.WeatherDataIsLoaded) {
              return Container(
@@ -84,4 +83,14 @@ late ListView listView;
 
 
 
-
+// else if (state is s.WeatherLoadingSuccess) {  
+//               if (state.isUpdate) {
+//                 listView = ListView.builder(
+//                 scrollDirection: Axis.horizontal,
+//                 itemCount: state.data.length,
+//                 itemBuilder: (context, i) {
+//                   return WeatherWidgetMainTitle(data: state.data[i]);
+//                                     });  
+//               }
+//                   return listView;                                   
+//               }

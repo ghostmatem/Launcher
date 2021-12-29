@@ -13,11 +13,14 @@ class AppBloc extends Bloc<e.AppEvent, s.AppState> {
       emit(s.AppOnLoaded());
       try {
         print('Получаем апп');
-        var data = await AppsRepository.getInstalledApps();
+        if (AppsRepository.apps.isEmpty) {
+          await Future.delayed(const Duration(seconds: 1));
+        }
+         var data = await AppsRepository.getInstalledApps();
         emit(s.FavoriteAppFormating());
         var favoriteApps = await FavoriteDataProvider.getAllData();
         FavoriteAppsRepository.updateFavoriteList(favoriteApps);
-        emit(s.AppsOperationIsSuccess(data));
+        emit(s.AppsOperationIsSuccess(data));              
       } catch(_) {
         emit(s.AppsOperationFailled());
       }

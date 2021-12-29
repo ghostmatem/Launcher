@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:launch/apps/all%20apps/user%20interface/app_item_list.dart';
 import 'dart:async';
@@ -16,7 +18,6 @@ class AppsRepository {
     if (apps.isEmpty) {
       List<AppInfo> gettedApps = await InstalledApps.getInstalledApps(true, true, "");
       var stream = await getAppTitleList(gettedApps).toList();
-
       for (var app in stream) {
         apps.add(app);
         var key = app.name.toLowerCase();
@@ -26,6 +27,7 @@ class AppsRepository {
     }  
     return apps;  
   }
+
 
   static Stream<AppTitle> getAppTitleList(List<AppInfo> appsInfo) async* {
     for (var appInfo in appsInfo) {

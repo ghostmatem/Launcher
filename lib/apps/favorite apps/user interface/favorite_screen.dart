@@ -9,16 +9,19 @@ import 'package:launch/apps/favorite%20apps/data/favorite_repository.dart';
 class FavoriteAppsScreen extends StatefulWidget {
   FavoriteAppsScreen({Key? key}) : super(key: key);
   bool orderByABC = false;
+  List<AppTitle> favoriteApps = [];
   @override
   _FavoriteAppsScreenState createState() => _FavoriteAppsScreenState();
 }
 
 class _FavoriteAppsScreenState extends State<FavoriteAppsScreen> {
-  List<AppTitle>_favoriteApps = [];
+  
 
   @override
   void initState() {
-     _updateFavoriteApps();  
+    if (widget.favoriteApps.isEmpty) {
+      _updateFavoriteApps();  
+    }    
     super.initState();
   }
 
@@ -30,7 +33,7 @@ class _FavoriteAppsScreenState extends State<FavoriteAppsScreen> {
           backgroundColor: Colors.blue[300],
           title: const MyTextForAppBar('Neo\'s'),
         ),
-        body: _favoriteApps.isNotEmpty
+        body: widget.favoriteApps.isNotEmpty
             ? _getFavoriteAppsListView()
             : _getEmptyMassage(),
         floatingActionButton: Container(
@@ -68,17 +71,17 @@ class _FavoriteAppsScreenState extends State<FavoriteAppsScreen> {
   }
 
   _updateFavoriteApps() {
-    _favoriteApps = widget.orderByABC
+    widget.favoriteApps = widget.orderByABC
         ? FavoriteAppsRepository.getOrderFavoriteList()
         : FavoriteAppsRepository.getFavoriteList();
   }
 
   ListView _getFavoriteAppsListView() {
     return ListView.builder(
-      itemCount: _favoriteApps.length,
+      itemCount: widget.favoriteApps.length,
       itemBuilder: (context, index) {
         return AppListItem(
-            app: _favoriteApps[index],
+            app: widget.favoriteApps[index],
             needStar: false,
             externalSetState: setState);
       });
